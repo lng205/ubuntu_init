@@ -8,7 +8,10 @@ main() {
 install_docker() {
     # Add GPG key
     sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    if ! sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+        echo "Get gpg key failed"
+        exit 1
+    fi
     sudo chmod a+r /etc/apt/keyrings/docker.asc
 
     # Add apt repo
