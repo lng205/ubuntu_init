@@ -3,15 +3,17 @@
 main() {
     install_docker
     set_docker_proxy
+    set_docker_group
 }
 
 install_docker() {
     # Add GPG key
     sudo install -m 0755 -d /etc/apt/keyrings
-    if ! sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    if ! sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc; then
         echo "Get gpg key failed"
         exit 1
     fi
+
     sudo chmod a+r /etc/apt/keyrings/docker.asc
 
     # Add apt repo
@@ -22,11 +24,6 @@ install_docker() {
     sudo apt-get update
 
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-
-    # Add user to docker group
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
-    newgrp docker
 }
 
 set_docker_proxy() {
@@ -53,6 +50,14 @@ EOF
     }
 }
 EOF
+}
+
+set_docker_group() {
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+
+    # Reload the shell
+    newgrp docker
 }
 
 main
