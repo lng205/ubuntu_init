@@ -27,7 +27,8 @@ RUN apt install -y \
     curl \
     wget \
     git \
-    sudo
+    sudo \
+    unzip
 
 
 # User setup
