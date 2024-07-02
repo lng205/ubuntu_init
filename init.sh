@@ -30,12 +30,11 @@ EOF
 
 setup_apt_mirror() {
     echo "Setting up APT mirror source to hit..."
-    sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
     sudo tee /etc/apt/sources.list <<EOF
-deb http://mirrors.hit.edu.cn/ubuntu/ jammy main restricted universe multiverse
-deb http://mirrors.hit.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
-deb http://mirrors.hit.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
-deb http://mirrors.hit.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
 EOF
 
     sudo apt update && sudo apt upgrade -y
