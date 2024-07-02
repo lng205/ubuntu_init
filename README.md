@@ -12,9 +12,9 @@ Current set up steps:
 ## USAGE
 
 1. Run `./init.sh http://proxy.example.com:port`
-2. Optional: put your ssh key in ./priv and run `./ssh.sh`
+2. Place your ssh key as ./priv and run `./ssh.sh`
 3. Run `./docker.sh`
-4. Build docker image with password: `docker build -t dev --build-arg PASSWORD=[password] .`
+4. Build docker image with password: `docker build -t dev .`
 
 ## NOTICE
 

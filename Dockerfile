@@ -20,13 +20,31 @@ RUN apt update && \
     apt upgrade -y
 
 # Install basic tools
-RUN apt install -y net-tools vim iputils-ping curl wget git
+RUN apt install -y \
+    net-tools \
+    vim \
+    iputils-ping \
+    curl \
+    wget \
+    git \
+    sudo
+
+
+# User setup
+ARG USERNAME=yb
 
 # Add custom user
-RUN apt install -y adduser sudo
-ARG USERNAME=yb
-ARG PASSWORD
-RUN adduser --disabled-password --gecos '' $USERNAME && \
-    echo "$USERNAME:$PASSWORD" | chpasswd && \
-    usermod -aG sudo yb
+RUN useradd --create-home --shell /bin/bash $USERNAME && \
+    usermod -aG sudo $USERNAME && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 USER $USERNAME
+WORKDIR /home/$USERNAME
+
+# Set up git
+COPY git.sh .
+RUN ./git.sh && rm git.sh
+
+# Set up git ssh
+COPY ssh.sh .
+COPY priv .
+RUN ./ssh.sh && rm ssh.sh && rm priv
